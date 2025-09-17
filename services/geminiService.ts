@@ -29,7 +29,7 @@ export const removeBackgroundFromImage = async (base64ImageData: string, mimeTyp
             },
           },
           {
-            text: 'remove the background. return only the subject with a transparent background. do not add any text unless there is an error.',
+            text: 'Isolate the main subject from the background and make the background transparent.',
           },
         ],
       },
@@ -40,7 +40,7 @@ export const removeBackgroundFromImage = async (base64ImageData: string, mimeTyp
     });
 
     let resultImage: string | null = null;
-    let resultText: string | null = null;
+    const textParts: string[] = [];
 
     // The model can return multiple parts (text, image, etc.)
     // We need to loop through them to find the image and any accompanying text.
@@ -49,11 +49,13 @@ export const removeBackgroundFromImage = async (base64ImageData: string, mimeTyp
         if (part.inlineData) {
           resultImage = part.inlineData.data;
         } else if (part.text) {
-          resultText = part.text;
+          textParts.push(part.text);
         }
       }
     }
     
+    const resultText = textParts.length > 0 ? textParts.join(' ').trim() : null;
+
     return { image: resultImage, text: resultText };
 
   } catch (error) {
