@@ -1,0 +1,5 @@
+{
+  "name": "AI Background Remover",
+  "description": "An application that uses the Gemini 'nano-banana' model to remove the background from an uploaded image, providing a clean result for download.",
+  "requestFramePermissions": []
+}
